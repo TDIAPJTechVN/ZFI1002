@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: ns1.zfi1002v3
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: S4HC_DEV
+          url: https://my408571-api.s4hana.cloud.sap
+        app:
+          name: ZFI1002V3
+          package: ZFI10_02_GENERALLEDGERVOUCHER
+          transport: ZUJK900202
+        exclude:
+          - /test/

@@ -1,0 +1,31 @@
+/* .table_Item {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}*/
+/* .table_Item th, .table_Item td {
+    padding: 3px;
+}  */
+
+.table_Item th{
+	text-align: center;
+    border-right: 1px solid #ccc;
+}  
+
+.table_Item td{
+    border-right: 1px solid #ccc;
+}  
+
+.table_Item th:nth-child(7){
+    border-right: none;
+}
+
+.table_Item td:nth-child(1), .table_Item td:nth-child(3), .table_Item td:nth-child(6){
+	text-align: center;
+}
+
+.table_Item td:nth-child(4){
+	text-align: right;
+}
+.table_Item td:nth-child(5){
+	text-align: right;
+}
