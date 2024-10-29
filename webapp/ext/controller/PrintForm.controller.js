@@ -84,7 +84,7 @@ sap.ui.define(
 				/*------------------------Xóa------------------*/
 				// const result = [];
 				// for (let i = 0; i < 10; i++) {
-				// 	// Thêm một bản sao của phần tử đầu tiên vào mảng result
+				// 	// Thêm một bản của phần tử đầu tiên vào mảng result
 				// 	result.push(oSharedData[0]);
 				// }
 				// console.log("result", result);
@@ -124,17 +124,6 @@ sap.ui.define(
 			
 			console.log("breakData", breakData);
 			return breakData;
-			// const breakData = oSharedData.flatMap(item => {
-			// 	if (item.LineItems.length > limit) {
-			// 		const newLineItems = item.LineItems.slice(limit); 
-			// 		return [
-			// 			{ ...item, LineItems: item.LineItems.slice(0, limit) },
-			// 			{ ...item, LineItems: newLineItems } 
-			// 		];
-			// 	}
-			// 	return [item]; 
-			// });
-			// return breakData;
 		},
 
 		filterLineByHeader: function(arrAccD, oBindList) {
