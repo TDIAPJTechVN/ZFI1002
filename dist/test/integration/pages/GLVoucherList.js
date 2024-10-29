@@ -1,0 +1,2 @@
+sap.ui.define(["sap/fe/test/ListReport"],function(t){"use strict";var e={actions:{},assertions:{}};return new t({appId:"ns1.zfi1002v3",componentId:"GLVoucherList",contextPath:"/GLVoucher"},e)});
+//# sourceMappingURL=GLVoucherList.js.map

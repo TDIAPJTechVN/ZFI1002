@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HTML5',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.HTML5.v1" Alias="SAP__HTML5"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PDF',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PDF.v1" Alias="SAP__PDF"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_SESSION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Session.v1" Alias="SAP__session"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ODM',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.ODM.v1" Alias="SAP__ODM"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HIERARCHY',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Hierarchy.v1" Alias="SAP__hierarchy"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="com.sap.gateway.srvd.zui_fi1002_glvoucher.v0001" Alias="SAP__self">
+            <Annotation Term="SAP__core.SchemaVersion" String="1.0.0"/>
+            <EntityType Name="GLVoucherType">
+                <Key>
+                    <PropertyRef Name="CompanyCode"/>
+                    <PropertyRef Name="FiscalYear"/>
+                    <PropertyRef Name="AccountingDocument"/>
+                </Key>
+                <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="FiscalYear" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="AccountingDocument" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="Ledger" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="AccountingDocumentType" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="DocumentDate" Type="Edm.Date"/>
+                <Property Name="PostingDate" Type="Edm.Date"/>
+                <Property Name="FiscalPeriod" Type="Edm.String" Nullable="false" MaxLength="3"/>
+                <Property Name="AccountingDocCreatedByUser" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="DocumentReferenceID" Type="Edm.String" Nullable="false" MaxLength="16"/>
+                <Property Name="AccountingDocumentHeaderText" Type="Edm.String" Nullable="false" MaxLength="25"/>
+                <Property Name="Reference1InDocumentHeader" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="Reference2InDocumentHeader" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="TransactionCurrency" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="ExchangeRate" Type="Edm.Decimal" Nullable="false" Precision="9" Scale="5"/>
+                <Property Name="OriginalReferenceDocument" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="ReversalReason" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="IsReversal" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="IsReversed" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="ReversalReferenceDocument" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="ReverseDocument" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="TransactionCode" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="DocumentStatus" Type="Edm.String" Nullable="false" MaxLength="500"/>
+                <Property Name="CompanyCodeName" Type="Edm.String" Nullable="false"/>
+                <Property Name="CompanyAddress1" Type="Edm.String" Nullable="false"/>
+                <Property Name="CompanyAddress2" Type="Edm.String" Nullable="false"/>
+                <Property Name="CompanyTel" Type="Edm.String" Nullable="false"/>
+                <Property Name="VATRegistration" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="_items" Type="Collection(com.sap.gateway.srvd.zui_fi1002_glvoucher.v0001.GLVoucherItemsType)" Partner="_header">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="GLVoucherItemsType">
+                <Key>
+                    <PropertyRef Name="SourceLedger"/>
+                    <PropertyRef Name="CompanyCode"/>
+                    <PropertyRef Name="FiscalYear"/>
+                    <PropertyRef Name="AccountingDocument"/>
+                    <PropertyRef Name="LedgerGLLineItem"/>
+                    <PropertyRef Name="Ledger"/>
+                </Key>
+                <Property Name="SourceLedger" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="FiscalYear" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="AccountingDocument" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="LedgerGLLineItem" Type="Edm.String" Nullable="false" MaxLength="6"/>
+                <Property Name="Ledger" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="DocumentItemText" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="GLAccount" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="CompanyCodeCurrency" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="AmountInTransactionCurrency" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable"/>
+                <Property Name="DebitAmount" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable"/>
+                <Property Name="CreditAmount" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable"/>
+                <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="FinancialAccountType" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="ObjectName" Type="Edm.String" Nullable="false" MaxLength="220"/>
+                <NavigationProperty Name="_header" Type="com.sap.gateway.srvd.zui_fi1002_glvoucher.v0001.GLVoucherType" Nullable="false" Partner="_items">
+                    <ReferentialConstraint Property="CompanyCode" ReferencedProperty="CompanyCode"/>
+                    <ReferentialConstraint Property="AccountingDocument" ReferencedProperty="AccountingDocument"/>
+                    <ReferentialConstraint Property="FiscalYear" ReferencedProperty="FiscalYear"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityContainer Name="Container">
+                <EntitySet Name="GLVoucher" EntityType="com.sap.gateway.srvd.zui_fi1002_glvoucher.v0001.GLVoucherType">
+                    <NavigationPropertyBinding Path="_items" Target="GLVoucherItems"/>
+                </EntitySet>
+                <EntitySet Name="GLVoucherItems" EntityType="com.sap.gateway.srvd.zui_fi1002_glvoucher.v0001.GLVoucherItemsType">
+                    <NavigationPropertyBinding Path="_header" Target="GLVoucher"/>
+                </EntitySet>
+            </EntityContainer>
+            <Annotations Target="SAP__self.GLVoucherType/CompanyCode">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_companycodevh/0001;ps='srvd-zui_fi1002_glvoucher-0001';va='com.sap.gateway.srvd.zui_fi1002_glvoucher.v0001.et-zc_fi1002_generalledgervoucher.companycode'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/FiscalYear">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__common.Label" String="Fiscal Year"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/AccountingDocument">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Journal Entry"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/Ledger">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_ledger/0001;ps='srvd-zui_fi1002_glvoucher-0001';va='com.sap.gateway.srvd.zui_fi1002_glvoucher.v0001.et-zc_fi1002_generalledgervoucher.ledger'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="Ledger"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/AccountingDocumentType">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Journal Entry Type"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/FiscalPeriod">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__common.Label" String="Fiscal Period"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/DocumentReferenceID">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Document Reference ID"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/Reference1InDocumentHeader">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Reference 1"/>
+                <Annotation Term="SAP__common.Heading" String="Reference 1 in Document Header"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Internal ID of Reference Key 1 in Document Header"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/Reference2InDocumentHeader">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Reference 2"/>
+                <Annotation Term="SAP__common.Heading" String="Reference 2 in Document Header"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Internal ID of Reference Key 2 in Document Header"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/TransactionCurrency">
+                <Annotation Term="SAP__common.IsCurrency"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Currency"/>
+                <Annotation Term="SAP__common.Heading" String="Crcy"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Currency Key"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/OriginalReferenceDocument">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Object Key"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Object key"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/ReversalReason">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Reversal Reason"/>
+                <Annotation Term="SAP__common.Heading" String="Rev.Reas."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Reason for Reversal or Inverse Posting"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/ReversalReferenceDocument">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Reversal Ref. No."/>
+                <Annotation Term="SAP__common.Heading" String="Rev. Ref."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Reversal: Reference Document No. of Document to Be Reversed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/ReverseDocument">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Reverse Document"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/TransactionCode">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Transaction Code"/>
+                <Annotation Term="SAP__common.Heading" String="TCode"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/DocumentStatus">
+                <Annotation Term="SAP__core.Computed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/CompanyCodeName">
+                <Annotation Term="SAP__core.Computed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/CompanyAddress1">
+                <Annotation Term="SAP__core.Computed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/CompanyAddress2">
+                <Annotation Term="SAP__core.Computed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/CompanyTel">
+                <Annotation Term="SAP__core.Computed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/VATRegistration">
+                <Annotation Term="SAP__core.Computed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/_items">
+                <Annotation Term="SAP__common.Composition"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/GLVoucher">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_items"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="Filterable" Bool="true"/>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="CompanyCode"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="Ledger"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="CompanyCodeName"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="CompanyAddress1"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="CompanyAddress2"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="CompanyTel"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="VATRegistration"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="RequiredProperties">
+                            <Collection>
+                                <PropertyPath>CompanyCode</PropertyPath>
+                                <PropertyPath>Ledger</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="NonFilterableProperties">
+                            <Collection>
+                                <PropertyPath>DocumentStatus</PropertyPath>
+                                <PropertyPath>CompanyCodeName</PropertyPath>
+                                <PropertyPath>CompanyAddress1</PropertyPath>
+                                <PropertyPath>CompanyAddress2</PropertyPath>
+                                <PropertyPath>CompanyTel</PropertyPath>
+                                <PropertyPath>VATRegistration</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>DocumentStatus</PropertyPath>
+                                <PropertyPath>CompanyCodeName</PropertyPath>
+                                <PropertyPath>CompanyAddress1</PropertyPath>
+                                <PropertyPath>CompanyAddress2</PropertyPath>
+                                <PropertyPath>CompanyTel</PropertyPath>
+                                <PropertyPath>VATRegistration</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="NonUpdatableNavigationProperties">
+                            <Collection>
+                                <PropertyPath>_items</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType">
+                <Annotation Term="SAP__common.Label" String="Root Projection View For General Ledger Voucher"/>
+                <Annotation Term="SAP__UI.Facets">
+                    <Collection>
+                        <Record Type="SAP__UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Journal Entry Item"/>
+                            <PropertyValue Property="ID" String="Journal_Item"/>
+                            <PropertyValue Property="Target" AnnotationPath="_items/@SAP__UI.LineItem"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="General Ledger Voucher"/>
+                        <PropertyValue Property="TypeNamePlural" String="General Ledger Voucher"/>
+                        <PropertyValue Property="Title">
+                            <Record Type="SAP__UI.DataField">
+                                <PropertyValue Property="Label" String="General Ledger Voucher"/>
+                                <PropertyValue Property="Value" Path="AccountingDocument"/>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="SAP__UI.DataField">
+                                <PropertyValue Property="Label" String="General Ledger Voucher"/>
+                                <PropertyValue Property="Value" Path="AccountingDocument"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__UI.LineItem">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Company Code"/>
+                            <PropertyValue Property="Value" Path="CompanyCode"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Journal Entry"/>
+                            <PropertyValue Property="Value" Path="AccountingDocument"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Fiscal Year"/>
+                            <PropertyValue Property="Value" Path="FiscalYear"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Source Ledger"/>
+                            <PropertyValue Property="Value" Path="Ledger"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Journal Entry Type"/>
+                            <PropertyValue Property="Value" Path="AccountingDocumentType"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Journal Entry Date"/>
+                            <PropertyValue Property="Value" Path="DocumentDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Posting Date"/>
+                            <PropertyValue Property="Value" Path="PostingDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Fiscal Period"/>
+                            <PropertyValue Property="Value" Path="FiscalPeriod"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="User Name"/>
+                            <PropertyValue Property="Value" Path="AccountingDocCreatedByUser"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Reference"/>
+                            <PropertyValue Property="Value" Path="DocumentReferenceID"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Doc.Header Text"/>
+                            <PropertyValue Property="Value" Path="AccountingDocumentHeaderText"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Ref.key(head) 1"/>
+                            <PropertyValue Property="Value" Path="Reference1InDocumentHeader"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Ref.key(head) 2"/>
+                            <PropertyValue Property="Value" Path="Reference2InDocumentHeader"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Currency Key"/>
+                            <PropertyValue Property="Value" Path="TransactionCurrency"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Exchange Rate"/>
+                            <PropertyValue Property="Value" Path="ExchangeRate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Reference Key"/>
+                            <PropertyValue Property="Value" Path="OriginalReferenceDocument"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Reversal Reason"/>
+                            <PropertyValue Property="Value" Path="ReversalReason"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Reversal Indicator"/>
+                            <PropertyValue Property="Value" Path="IsReversal"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Reversed Indicator"/>
+                            <PropertyValue Property="Value" Path="IsReversed"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Reverse ref No"/>
+                            <PropertyValue Property="Value" Path="ReversalReferenceDocument"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Reverse with"/>
+                            <PropertyValue Property="Value" Path="ReverseDocument"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Transaction code"/>
+                            <PropertyValue Property="Value" Path="TransactionCode"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document Status"/>
+                            <PropertyValue Property="Value" Path="DocumentStatus"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>CompanyCode</PropertyPath>
+                        <PropertyPath>Ledger</PropertyPath>
+                        <PropertyPath>AccountingDocument</PropertyPath>
+                        <PropertyPath>FiscalYear</PropertyPath>
+                        <PropertyPath>AccountingDocumentType</PropertyPath>
+                        <PropertyPath>PostingDate</PropertyPath>
+                        <PropertyPath>FiscalPeriod</PropertyPath>
+                        <PropertyPath>DocumentDate</PropertyPath>
+                        <PropertyPath>AccountingDocCreatedByUser</PropertyPath>
+                        <PropertyPath>DocumentStatus</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container">
+                <Annotation Term="SAP__CodeList.CurrencyCodes">
+                    <Record>
+                        <PropertyValue Property="Url" String="../../../../default/iwbep/common/0001/$metadata"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="SAP__aggregation.RollupType/None"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+                <Annotation Term="SAP__capabilities.FilterFunctions">
+                    <Collection>
+                        <String>eq</String>
+                        <String>ne</String>
+                        <String>gt</String>
+                        <String>ge</String>
+                        <String>lt</String>
+                        <String>le</String>
+                        <String>and</String>
+                        <String>or</String>
+                        <String>contains</String>
+                        <String>startswith</String>
+                        <String>endswith</String>
+                        <String>any</String>
+                        <String>all</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SupportedFormats">
+                    <Collection>
+                        <String>application/json</String>
+                        <String>application/pdf</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__PDF.Features">
+                    <Record>
+                        <PropertyValue Property="DocumentDescriptionReference" String="../../../../default/iwbep/common/0001/$metadata"/>
+                        <PropertyValue Property="DocumentDescriptionCollection" String="MyDocumentDescriptions"/>
+                        <PropertyValue Property="ArchiveFormat" Bool="true"/>
+                        <PropertyValue Property="Border" Bool="true"/>
+                        <PropertyValue Property="CoverPage" Bool="true"/>
+                        <PropertyValue Property="FitToPage" Bool="true"/>
+                        <PropertyValue Property="FontName" Bool="true"/>
+                        <PropertyValue Property="FontSize" Bool="true"/>
+                        <PropertyValue Property="Margin" Bool="true"/>
+                        <PropertyValue Property="Padding" Bool="true"/>
+                        <PropertyValue Property="Signature" Bool="true"/>
+                        <PropertyValue Property="HeaderFooter" Bool="true"/>
+                        <PropertyValue Property="ResultSizeDefault" Int="20000"/>
+                        <PropertyValue Property="ResultSizeMaximum" Int="20000"/>
+                        <PropertyValue Property="IANATimezoneFormat" Bool="true"/>
+                        <PropertyValue Property="Treeview" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.KeyAsSegmentSupported"/>
+                <Annotation Term="SAP__capabilities.AsynchronousRequestsSupported"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/SourceLedger">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Source Ledger"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/CompanyCode">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/FiscalYear">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__common.Label" String="Fiscal Year"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/AccountingDocument">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Journal Entry"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/LedgerGLLineItem">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Journal Entry Item"/>
+                <Annotation Term="SAP__common.Heading" String="General Ledger Journal Entry Line Item"/>
+                <Annotation Term="SAP__common.QuickInfo" String="General Ledger Journal Entry Line Item"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/Ledger">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Ledger"/>
+                <Annotation Term="SAP__common.Heading" String="Ld"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Ledger in General Ledger Accounting"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/GLAccount">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="G/L Account"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/CompanyCodeCurrency">
+                <Annotation Term="SAP__common.IsCurrency"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Company Code Currency"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/AmountInTransactionCurrency">
+                <Annotation Term="SAP__measures.ISOCurrency" Path="CompanyCodeCurrency"/>
+                <Annotation Term="SAP__common.Label" String="Amount in Transaction Currency"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/DebitAmount">
+                <Annotation Term="SAP__measures.ISOCurrency" Path="CompanyCodeCurrency"/>
+                <Annotation Term="SAP__common.Label" String="Amount in Company Code Currency"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/CreditAmount">
+                <Annotation Term="SAP__measures.ISOCurrency" Path="CompanyCodeCurrency"/>
+                <Annotation Term="SAP__common.Label" String="Amount in Company Code Currency"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/Supplier">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Supplier"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/Customer">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Customer"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Customer Number"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/FinancialAccountType">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Account Type"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/GLVoucherItems">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_header"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="NonUpdatableNavigationProperties">
+                            <Collection>
+                                <PropertyPath>_header</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="AmountInTransactionCurrency"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="DebitAmount"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="CreditAmount"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType">
+                <Annotation Term="SAP__common.Label" String="Root Projection View For General Ledger Voucher Item"/>
+                <Annotation Term="SAP__UI.LineItem">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Company Code"/>
+                            <PropertyValue Property="Value" Path="SourceLedger"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Company Code"/>
+                            <PropertyValue Property="Value" Path="CompanyCode"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Fiscal Year"/>
+                            <PropertyValue Property="Value" Path="FiscalYear"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Accounting Document"/>
+                            <PropertyValue Property="Value" Path="AccountingDocument"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Line Item"/>
+                            <PropertyValue Property="Value" Path="LedgerGLLineItem"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Company Code"/>
+                            <PropertyValue Property="Value" Path="Ledger"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document Item Text"/>
+                            <PropertyValue Property="Value" Path="DocumentItemText"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="GL Account"/>
+                            <PropertyValue Property="Value" Path="GLAccount"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Currency"/>
+                            <PropertyValue Property="Value" Path="CompanyCodeCurrency"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Amount"/>
+                            <PropertyValue Property="Value" Path="AmountInTransactionCurrency"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Debit Amount"/>
+                            <PropertyValue Property="Value" Path="DebitAmount"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Amount"/>
+                            <PropertyValue Property="Value" Path="CreditAmount"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Supplier"/>
+                            <PropertyValue Property="Value" Path="Supplier"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Customer"/>
+                            <PropertyValue Property="Value" Path="Customer"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Financial Account Type"/>
+                            <PropertyValue Property="Value" Path="FinancialAccountType"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Object Information"/>
+                            <PropertyValue Property="Value" Path="ObjectName"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/DocumentDate">
+                <Annotation Term="SAP__common.Label" String="Journal Entry Date"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/PostingDate">
+                <Annotation Term="SAP__common.Label" String="Posting Date"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/AccountingDocCreatedByUser">
+                <Annotation Term="SAP__common.Label" String="Journal Entry Created By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="User that created the journal entry"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/AccountingDocumentHeaderText">
+                <Annotation Term="SAP__common.Label" String="Document Header Text"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/ExchangeRate">
+                <Annotation Term="SAP__common.Label" String="Absolute Exchange Rate"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/IsReversal">
+                <Annotation Term="SAP__common.Label" String="Is Reversing"/>
+                <Annotation Term="SAP__common.Heading" String="Rvrsng"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Item is Reversing Another Item"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherType/IsReversed">
+                <Annotation Term="SAP__common.Label" String="Is Reversed"/>
+                <Annotation Term="SAP__common.Heading" String="Rvrsd"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Item is Reversed"/>
+            </Annotations>
+            <Annotations Target="SAP__self.GLVoucherItemsType/DocumentItemText">
+                <Annotation Term="SAP__common.Label" String="Item Text"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

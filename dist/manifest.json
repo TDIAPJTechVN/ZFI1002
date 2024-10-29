@@ -1,0 +1,221 @@
+{
+  "_version": "1.64.0",
+  "sap.app": {
+    "id": "ns1.zfi1002v3",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.15.2",
+      "toolsId": "d2fa94c7-7fa8-4613-84dd-c01e5ec8bf0d"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zui_fi1002_glvoucher_o4/srvd/sap/zui_fi1002_glvoucher/0001/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "annotation"
+          ],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      },
+      "annotation": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation.xml",
+        "settings": {
+          "localUri": "annotations/annotation.xml"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "manage-display": {
+          "semanticObject": "manage",
+          "action": "display",
+          "title": "{{flpTitle}}",
+          "subTitle": "{{flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.124.8",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "ns1.zfi1002v3.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/bootstrap.min.css"
+        },
+        {
+          "uri": "css/stylehtml.css"
+        }
+      ],
+      "js": [
+        {
+          "uri": "js/html2pdf.bundle.min.js"
+        },
+        {
+          "uri": "js/bootstrap.min.js"
+        }
+      ]
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "GLVoucherList",
+          "target": "GLVoucherList"
+        },
+        {
+          "pattern": "GLVoucher({key}):?query:",
+          "name": "GLVoucherObjectPage",
+          "target": "GLVoucherObjectPage"
+        },
+        {
+          "pattern": "GLVoucher({key})/_items({key2}):?query:",
+          "name": "GLVoucherItemsObjectPage",
+          "target": "GLVoucherItemsObjectPage"
+        }
+      ],
+      "targets": {
+        "GLVoucherList": {
+          "type": "Component",
+          "id": "GLVoucherList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/GLVoucher",
+              "variantManagement": "Page",
+              "navigation": {
+                "GLVoucher": {
+                  "detail": {
+                    "route": "GLVoucherObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "printpdf": {
+                      "press": ".extension.ns1.zfi1002v3.ext.controller.PrintForm.printForm",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "{i18n>printFrom}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "GLVoucherObjectPage": {
+          "type": "Component",
+          "id": "GLVoucherObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/GLVoucher",
+              "navigation": {
+                "_items": {
+                  "detail": {
+                    "route": "GLVoucherItemsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "GLVoucherItemsObjectPage": {
+          "type": "Component",
+          "id": "GLVoucherItemsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/GLVoucher/_items"
+            }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController#ns1.zfi1002v3::GLVoucherList": {
+            "controllerName": "ns1.zfi1002v3.ext.controller.PrintForm"
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

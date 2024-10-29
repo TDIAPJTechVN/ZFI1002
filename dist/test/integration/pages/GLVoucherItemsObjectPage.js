@@ -1,0 +1,2 @@
+sap.ui.define(["sap/fe/test/ObjectPage"],function(e){"use strict";var t={actions:{},assertions:{}};return new e({appId:"ns1.zfi1002v3",componentId:"GLVoucherItemsObjectPage",contextPath:"/GLVoucher/_items"},t)});
+//# sourceMappingURL=GLVoucherItemsObjectPage.js.map

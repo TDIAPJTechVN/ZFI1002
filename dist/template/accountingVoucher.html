@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Chứng từ Kế Toán</title>
+
+ </head>
+ <body>
+  <div style="font-family:freeserif;">
+    <div class="row">
+      <div class="col-md-2" style="margin-right: 0;">
+        <table>
+          <tr>
+            <!-- <td> <Image src="/images/logo.png" style="width: 70px;"/> </td> -->
+             <td><Image src="##image##" style="width: 110px; height: 90px;"/></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-8" style="margin-left: 0; padding-top: 10px;">
+        <table>
+          <tr>
+            <td>##CompanyName##</td>
+          </tr>
+          <tr>
+            <td>##Address##</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+ 
+   <div class="row">
+    <div class="col-md-12 text-center">
+        <h1 style="text-transform: uppercase; font-weight: bold;margin-bottom:0">Chứng từ kế toán</h1>
+        <div>##Date##</div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-6">
+      <table>
+        <tr>
+            <td>Loại chứng từ: </td>
+            <td>##CerType##</td>
+        </tr>
+        <tr>
+            <td>Số chứng từ: </td>
+            <td>##CerNum##</td>
+        </tr>
+        <tr>
+          <td>Số tham chiếu: </td>
+          <td>##RefNum##</td>
+        </tr>
+        <tr>
+          <td>Số phiếu: </td>
+          <td>##NumVote##</td>
+        </tr>
+        <tr>
+          <td>Trạng thái chứng từ: </td>
+          <td>##Status##</td>
+        </tr>
+        <tr>
+          <td>Diễn giải chung:  </td>
+          <td>##Note##</td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <table>
+        <tr>
+            <td>Loại tiền: </td>
+            <td>##MoneyType##</td>
+        </tr>
+        <tr>
+            <td>Tỷ giá:  </td>
+            <td>##ExRate##</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-12">
+      <table class="table_Item" style="border: 1px solid #ccc;">
+          <tr style="border-bottom: 1px solid #ccc;">
+            <th>STT</th>
+            <th style="width: 40%;">Diễn giải</th>
+            <th>Tài khoản</th>
+            <th>Phát sinh nợ</th>
+            <th>Phát sinh có</th>
+            <th>Ngoại tệ</th>
+            <th style="width: 20%;">Đối tượng (Vendor/Customer/Cost center/Profit center)</th>
+          </tr>
+          ##PRTD##
+        <tfoot>
+          <tr  style="border-bottom: 1px solid #ccc;">
+            <th scope="row" colspan="1" style="border-right: 1px solid #ccc;">Cộng</th>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1" style="padding: 8px;">##SUMDEBIT##</td>
+            <td colspan="1" style="padding: 8px;">##SUMCREDIT##</td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+          </tr>
+        </tfoot> 
+      </table>
+    </div>
+  </diV>
+  </div>
+
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-12">
+      <table style="width: 100%;">
+        <tr style="text-align: center;">
+          <th></th>
+          <th>##TODAY##</th>
+        </tr>
+        <tr style="text-align: center">
+          <th style="font-weight: bold;">Kế toán trưởng</th>
+          <th><strong>Người lập phiếu</strong></th>
+        </tr>
+        <tr style="text-align: center;">
+          <td>(Ký, họ tên)</td>
+          <td>(Ký, họ tên)</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="page-break"></div>
+ </body>
+</html>

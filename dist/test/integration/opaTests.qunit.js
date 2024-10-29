@@ -1,0 +1,2 @@
+sap.ui.require(["sap/fe/test/JourneyRunner","ns1/zfi1002v3/test/integration/FirstJourney","ns1/zfi1002v3/test/integration/pages/GLVoucherList","ns1/zfi1002v3/test/integration/pages/GLVoucherObjectPage","ns1/zfi1002v3/test/integration/pages/GLVoucherItemsObjectPage"],function(e,t,n,r,s){"use strict";var e=new e({launchUrl:sap.ui.require.toUrl("ns1/zfi1002v3")+"/index.html"});e.run({pages:{onTheGLVoucherList:n,onTheGLVoucherObjectPage:r,onTheGLVoucherItemsObjectPage:s}},t.run)});
+//# sourceMappingURL=opaTests.qunit.js.map
