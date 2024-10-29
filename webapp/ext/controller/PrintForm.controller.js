@@ -74,7 +74,7 @@ sap.ui.define(
 				// dùng mảng AccountingDocument lấy ra những arrLine tương ứng
 				const data = await this.filterLineByHeader(arrAccD, oBindList);  
 				arrLine = data;
-
+				
 				// Mapping header & line hoàn thành
 				oSharedData = await this.nestArrays(arrHeader, arrLine); 
 				console.log("Data mapping header line", oSharedData);
