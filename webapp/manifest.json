@@ -112,10 +112,13 @@
       ],
       "js": [
         {
-          "uri": "js/html2pdf.bundle.min.js"
+          "uri": "libs/html2pdf.bundle.min.js"
         },
         {
-          "uri": "js/bootstrap.min.js"
+          "uri": "libs/bootstrap.min.js"
+        },
+        {
+          "uri": "libs/jquery.min.js"
         }
       ]
     },
@@ -166,6 +169,13 @@
                       "enabled": true,
                       "requiresSelection": true,
                       "text": "{i18n>printFrom}"
+                    },
+                    "ExcelForm": {
+                      "press": ".extension.ns1.zfi1002v3.ext.controller.ExcelForm.ExcelForm",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "Dialog"
                     }
                   }
                 }
@@ -208,7 +218,10 @@
       "extensions": {
         "sap.ui.controllerExtensions": {
           "sap.fe.templates.ListReport.ListReportController#ns1.zfi1002v3::GLVoucherList": {
-            "controllerName": "ns1.zfi1002v3.ext.controller.PrintForm"
+            "controllerNames": [
+              "ns1.zfi1002v3.ext.controller.PrintForm",
+              "ns1.zfi1002v3.ext.controller.ExcelForm"
+            ]
           }
         }
       }

@@ -1,8 +1,9 @@
 sap.ui.define(
 	[
-		'sap/ui/core/mvc/ControllerExtension'
+		'sap/ui/core/mvc/ControllerExtension',
+		'sap/ui/thirdparty/jquery'
 	]
-	, function (ControllerExtension) {
+	, function (ControllerExtension, jQuery) {
 	'use strict';
 
 	let strHtml = '';
@@ -26,28 +27,56 @@ sap.ui.define(
 			onInit: function () {
 				// you can access the Fiori elements extensionAPI via this.base.getExtensionAPI
 				var oModel = this.base.getExtensionAPI().getModel();
-				// console.log("jquery", jquery);
+				// console.log("jQuery",jQuery)
+
+				var oEventBus = sap.ui.getCore().getEventBus();
+				console.log("oEventBus nhận", oEventBus);
+            	oEventBus.subscribe("ControllerGetData", "getData", this.getData, this);
 			}
 		},
 
 		nestArrays: async function(headerItem, lineItems) {
 			const lineItemsMap = {};
-				lineItems.forEach(item => {
-					const docId = item.AccountingDocument;
-					if (!lineItemsMap[docId]) {
-						lineItemsMap[docId] = [];
-					}
-					lineItemsMap[docId].push(item);
+			lineItems.forEach(item => {
+				const docId = item.AccountingDocument;
+				if (!lineItemsMap[docId]) {
+					lineItemsMap[docId] = [];
+				}
+				lineItemsMap[docId].push(item);
+			});
+
+			// Lồng line items vào accounting documents và loại bỏ những line items có mảng rỗng
+			const combinedResult = headerItem.map(HeaderItems => {
+				const lineItems = lineItemsMap[HeaderItems.AccountingDocument] || [];
+				return {
+					HeaderItems,
+					LineItems: lineItems
+				};
+			}).filter(item => item.LineItems.length > 0);  // Chỉ giữ lại những phần tử có LineItems không rỗng
+
+			return combinedResult;
+		},
+		getData: async function(sChannelId, sEventId, oData){
+			console.log("oData", oData);
+			let aDataHeader = [];
+			var oModel = this.getView().getModel();
+			var oBinding = oModel.bindList("/GLVoucher");
+			var oBindList = oModel.bindList("/GLVoucherItems");
+			var oFilter = new sap.ui.model.Filter("DocumentDate", sap.ui.model.FilterOperator.BT, this.convertDateFormat(oData.fromDate), this.convertDateFormat(oData.toDate));
+			console.log("oFilteroFilter",oFilter);
+			try {
+				const aContexts = await oBinding.filter(oFilter).requestContexts();
+				aContexts.forEach(oContext => {
+					aDataHeader.push(oContext.getObject());
 				});
-	
-				// Lồng line items vào accounting documents
-				const combinedResult = headerItem.map(HeaderItems => {
-					return {
-						HeaderItems,
-						LineItems: lineItemsMap[HeaderItems.AccountingDocument] || []
-					};
-				});
-				return combinedResult;
+				let accountingDocuments = aDataHeader.map(item => item.AccountingDocument);
+				const data = await this.filterLineByHeader(accountingDocuments, oBindList);  
+				arrLine = data;
+				this.arrHeaderLine(aDataHeader, arrLine);
+
+			} catch (error) {
+				console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
+			}
 		},
 
 		printForm: async function() {
@@ -63,6 +92,7 @@ sap.ui.define(
 
 			let promises = aContexts.map(element => {
 				return element.requestObject().then(async (ContextData) => {
+					console.log("ContextData", ContextData);
 					// Lấy thông tin của data header và data line
 					arrAccD.push(ContextData.AccountingDocument); 
 					arrHeader.push(ContextData); // push header
@@ -74,38 +104,42 @@ sap.ui.define(
 				// dùng mảng AccountingDocument lấy ra những arrLine tương ứng
 				const data = await this.filterLineByHeader(arrAccD, oBindList);  
 				arrLine = data;
-				
-				// Mapping header & line hoàn thành
-				oSharedData = await this.nestArrays(arrHeader, arrLine); 
-				console.log("Data mapping header line", oSharedData);
-				// Ngắn trang theo line
-				let oPagebreakLine = await this.pagebreak(oSharedData); 
-				console.log("Data break", oPagebreakLine);
-				/*------------------------Xóa------------------*/
-				// const result = [];
-				// for (let i = 0; i < 10; i++) {
-				// 	// Thêm một bản của phần tử đầu tiên vào mảng result
-				// 	result.push(oSharedData[0]);
-				// }
-				// console.log("result", result);
-				// oSharedData = result;
-				/*------------------------Xóa------------------*/
 
-				let htmlElement = "";
-				for (let k = 0; k < oPagebreakLine.length; k++) {
-					// Chờ mỗi templateHtml hoàn thành trước khi tiếp tục
-					htmlElement += await this.templateHtml(oPagebreakLine[k], k + 1, oPagebreakLine.length);
-				}
-
-				// In ra HTML
-				setTimeout(() => this.print(htmlElement, true), 3000);
+				console.log("arrLine", arrLine);
+				this.arrHeaderLine(arrHeader, arrLine);
 			})
 			.catch(error => {
 				console.error("Error retrieving context data:", error);
 			});
-
 		},
+		arrHeaderLine:async function(arrHeader, arrLine){
+			// console.log("arrHeader", arrHeader);
+			// console.log("arrLine", arrLine);
+			// Mapping header & line hoàn thành
+			oSharedData = await this.nestArrays(arrHeader, arrLine); 
+			console.log("Data mapping header line", oSharedData);
+			// Ngắn trang theo line
+			let oPagebreakLine = await this.pagebreak(oSharedData); 
+			console.log("Data break", oPagebreakLine);
+			/*------------------------Xóa------------------*/
+			// const result = [];
+			// for (let i = 0; i < 10; i++) {
+			// 	// Thêm một bản của phần tử đầu tiên vào mảng result
+			// 	result.push(oSharedData[0]);
+			// }
+			// console.log("result", result);
+			// oSharedData = result;
+			/*------------------------Xóa------------------*/
 
+			let htmlElement = "";
+			for (let k = 0; k < oPagebreakLine.length; k++) {
+				// Chờ mỗi templateHtml hoàn thành trước khi tiếp tục
+				htmlElement += await this.templateHtml(oPagebreakLine[k], k + 1, oPagebreakLine.length);
+			}
+
+			// In ra HTML
+			setTimeout(() => this.print(htmlElement, true), 3000);
+		},	
 		pagebreak(oSharedData){
 			const breakData = oSharedData.flatMap(item => {
 				if (item.LineItems.length > limit) {
@@ -210,7 +244,7 @@ sap.ui.define(
 					<tr>
 					${Object.values(row).map((value) => 
 					(
-						`<td style="border-bottom: 1px solid #ccc; padding:8px">${value}</td>`
+						`<td style="border-bottom: 1px solid #ccc; padding:6px">${value}</td>`
 					)).join('')}
 					</tr>
 				`)).join(''),
@@ -218,7 +252,7 @@ sap.ui.define(
 				'SUMCREDIT':this.formatMoney(arrTable.map(o => o.CREDIT).reduce((a, c) => { return a + c }), arrHe.TransactionCurrency)
 			}
 
-			await $.get(this._sValidPath, function(html_string) {
+			await jQuery.get(this._sValidPath, function(html_string) {
 				strHtml = html_string;
 				var entries = Object.entries(obj);
 				
@@ -252,7 +286,18 @@ sap.ui.define(
 			var yyyy = dateIn.getFullYear();
 			var mm = dateIn.getMonth() + 1; 
 			var dd = dateIn.getDate();
-			return String(dd).padStart(2,'0') +"/"+ String(mm).padStart(2,'0') +"/"+ yyyy
+			return String(dd).padStart(2,'0') +"-"+ String(mm).padStart(2,'0') +"-"+ yyyy
 		},
+
+		convertDateFormat(dateStr) {
+			var parts = dateStr.split('-');
+			var day = parts[0];
+			var month = parts[1];
+			var year = parts[2];
+			
+			// Trả về chuỗi theo định dạng yyyy-MM-dd
+			return year + '-' + month + '-' + day;
+		}
+		
 	});
 });
