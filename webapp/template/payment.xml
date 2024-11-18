@@ -1,0 +1,24 @@
+		<Detail>
+			<Company>
+				<CompanyName>##CompanyName##</CompanyName>  
+				<Registration>##Registration##</Registration>	
+				<Address>##Address##</Address>
+				<Phone>##Phone##</Phone>  			
+				<TaxCode>##TaxCode##</TaxCode>   
+				<E-mail>##Mail##</E-mail>  
+				<Website>##Website##</Website> 
+			</Company>
+			<Invoice>
+				<ReceivedFrom>##ReceivedFrom##</ReceivedFrom>   
+				<Tel>034207424624</Tel>  
+				<Fax> </Fax>  
+				<ReceiptNo>##ReceiptNo##</ReceiptNo>  
+				<BankAccount>##BankAccount##</BankAccount>  
+				<Currency>##Currency##</Currency>  
+				<Products>##PRODUCT## </Products>
+				<AmountInWords>Một triệu ba trăm nghìn đồng chẵn</AmountInWords>
+				<Total>##SUM##</Total>      
+				<Note>This is company</Note> 
+			</Invoice>
+		</Detail>
+	

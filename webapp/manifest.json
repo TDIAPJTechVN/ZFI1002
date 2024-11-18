@@ -176,6 +176,13 @@
                       "enabled": true,
                       "requiresSelection": false,
                       "text": "Dialog"
+                    },
+                    "Print": {
+                      "press": ".extension.ns1.zfi1002v3.ext.controller.PrintPDF.PrintPDF",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "Print PDF"
                     }
                   }
                 }
@@ -220,7 +227,8 @@
           "sap.fe.templates.ListReport.ListReportController#ns1.zfi1002v3::GLVoucherList": {
             "controllerNames": [
               "ns1.zfi1002v3.ext.controller.PrintForm",
-              "ns1.zfi1002v3.ext.controller.ExcelForm"
+              "ns1.zfi1002v3.ext.controller.ExcelForm",
+              "ns1.zfi1002v3.ext.controller.PrintPDF"
             ]
           }
         }
