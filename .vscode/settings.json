@@ -1,3 +1,4 @@
 {
-    "SAP HANA Database Explorer.ShowXsAdvancedConnections": true
+    "SAP HANA Database Explorer.ShowXsAdvancedConnections": true,
+    "Service Center.logging.sourceLocationTracking": false
 }

@@ -16,7 +16,7 @@
 				<BankAccount>##BankAccount##</BankAccount>  
 				<Currency>##Currency##</Currency>  
 				<Products>##PRODUCT## </Products>
-				<AmountInWords>Một triệu ba trăm nghìn đồng chẵn</AmountInWords>
+				<AmountInWords>##AmountInWords##</AmountInWords>
 				<Total>##SUM##</Total>      
 				<Note>This is company</Note> 
 			</Invoice>

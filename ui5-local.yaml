@@ -35,6 +35,10 @@ server:
             path: /sap
             url: https://my408543-api.s4hana.cloud.sap
             destination: S4HC_CUSTOMIZING
+          - authenticationType: none # SAML support for vscode
+            path: /v1
+            url: https://adsrestapi-formsprocessing.cfapps.us10.hana.ondemand.com
+            destination: BTP-ADS
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:

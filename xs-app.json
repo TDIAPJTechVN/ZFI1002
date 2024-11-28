@@ -1,0 +1,21 @@
+{
+    "welcomeFile": "test/flpSandbox.html",
+    "authenticationMethod": "none",
+    "logout": {
+      "logoutEndpoint": "/do/logout"
+    },
+    "routes": [
+      {
+        "source": "^/v1/(.*)$",
+        "target": "$1",
+        "authenticationType": "xsuaa",
+        "csrfProtection": false,
+        "destination": "BTP-ADS"
+      },
+      {
+        "source": "^/ui5/(.*)$",
+        "target": "$1",
+        "localDir": "webapp"
+      }
+    ]
+  }
