@@ -119,6 +119,9 @@
         },
         {
           "uri": "libs/jquery.min.js"
+        },
+        {
+          "uri": "libs/pdf-lib.min.js"
         }
       ]
     },

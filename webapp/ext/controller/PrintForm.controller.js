@@ -89,6 +89,8 @@ sap.ui.define(
             var oModel = this.getView().getModel();
             aContexts = this.base.getExtensionAPI().getSelectedContexts();
             var oBindList = oModel.bindList("/GLVoucherItems");
+			console.log("aContexts",aContexts);
+			console.log("oBindList",oBindList);
 
 			let promises = aContexts.map(element => {
 				return element.requestObject().then(async (ContextData) => {
@@ -141,12 +143,14 @@ sap.ui.define(
 			setTimeout(() => this.print(htmlElement, true), 3000);
 		},	
 		pagebreak(oSharedData){
+			console.log("oSharedData",oSharedData);
 			const breakData = oSharedData.flatMap(item => {
 				if (item.LineItems.length > limit) {
 					const result = [];
 					const lineItems = item.LineItems;
 					
 					for (let i = 0; i < lineItems.length; i += limit) {
+						console.log("aaaaaa", i, limit, i += limit);
 						const newLineItems = lineItems.slice(i, i + limit);
 						result.push({ ...item, LineItems: newLineItems });
 					}

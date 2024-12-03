@@ -1,11 +1,9 @@
 sap.ui.define(
 	[
 		'sap/ui/core/mvc/ControllerExtension',
-		'sap/ui/model/json/JSONModel',
-		'sap/ui/layout/VerticalLayout',
-		'sap/m/Button',
-		'sap/ui/thirdparty/jquery'
-	], function (ControllerExtension, JSONModel, VerticalLayout, Button, jQuery) {
+		'sap/ui/thirdparty/jquery',
+		'sap/m/MessageToast'
+	], function (ControllerExtension, jQuery, MessageToast) {
 	'use strict';
 
 	var arrHeader = [];
@@ -13,7 +11,8 @@ sap.ui.define(
 	let oSharedData = [];
 	let strXml = "";
 	var limit = 10;
-
+	let xmlRes = [];
+	
 	var username = "CPM_USER";  
 	var password = "pscqTSJ5}vvYWqnbnTFfhyUFjegjonBdGDiiqpvM";
 
@@ -44,7 +43,7 @@ sap.ui.define(
 
 			let promises = aContexts.map(element => {
 				return element.requestObject().then(async (ContextData) => {
-					console.log("ContextData", ContextData);
+					// console.log("ContextData", ContextData);
 					// Lấy thông tin của data header và data line
 					arrAccD.push(ContextData.AccountingDocument); 
 					arrHeader.push(ContextData); // push header
@@ -167,21 +166,28 @@ sap.ui.define(
 			// console.log("arrLine", arrLine);
 			// Mapping header & line hoàn thành
 			oSharedData = await this.nestArrays(arrHeader, arrLine); 
-			console.log("Data mapping header line", oSharedData);
+			// console.log("Data mapping header line", oSharedData);
 
+			console.log("oSharedData", oSharedData);
 			// Ngắn trang theo line
-			let oPagebreakLine = await this.pagebreak(oSharedData); 
-			console.log("Data break", oPagebreakLine);
+			// let oPagebreakLine = await this.pagebreak(oSharedData); 
+			// console.log("Data break", oPagebreakLine);
 
 			let htmlElement = "";
-			for (let k = 0; k < oPagebreakLine.length; k++) {
-				htmlElement += await this.jsonToXml(oPagebreakLine[k]);
+			let resAPI = ""
+			xmlRes = [];
+			for (let k = 0; k < oSharedData.length; k++) {
+				htmlElement = await this.jsonToXml(oSharedData[k]);
+				// In ra pdf
+				xmlStr = '<Root>' + htmlElement + '</Root>';
+				// console.log("xmlStr", xmlStr);
+				resAPI = await this.callApiWithToken(xmlStr);
+
+				// console.log("resAPI",resAPI);
+				xmlRes.push(resAPI);
+				console.log("xmlRes",xmlRes);
 			}
-			
-			// In ra pdf
-			 xmlStr = '<Root>' + htmlElement + '</Root>';
-			console.log("xmlStr", xmlStr);
-			setTimeout(() => this.callApiWithToken(xmlStr, true), 3000);
+			await this.onOpenPdf(xmlRes);
 		},
 		nestArrays: async function(headerItem, lineItems) {
 			const lineItemsMap = {};
@@ -223,31 +229,45 @@ sap.ui.define(
 			// console.log("breakData", breakData);
 			return breakData;
 		},
-		onOpenPdf: function (fileContent) {
-			let pdfWindow = null;
-			const byteCharacters = atob(fileContent);
-			const byteArrays = [];
-			for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
-				const slice = byteCharacters.slice(offset, offset + 1024);
-				const byteNumbers = new Array(slice.length);
-				for (let i = 0; i < slice.length; i++) {
-					byteNumbers[i] = slice.charCodeAt(i);
-				}
-				byteArrays.push(new Uint8Array(byteNumbers));
-			}
-			const pdfBlob = new Blob(byteArrays, { type: 'application/pdf' });
-			const pdfUrl = URL.createObjectURL(pdfBlob);
-			if (pdfWindow && !pdfWindow.closed) {
-				// Nếu tab PDF đã mở, chỉ cần cập nhật lại nội dung của tab
-				pdfWindow.location.href = pdfUrl;
-			} else {
-				// Nếu chưa mở, tạo mới một tab
-				pdfWindow = window.open(pdfUrl);
-			}
+		onOpenPdf: function (base64Array) 
+		{
+			this.mergeBase64PDFsAndOpen(base64Array);
 		},
+		mergeBase64PDFsAndOpen: async function(base64Array) {
+			const { PDFDocument } = PDFLib;
+
+			// Tạo một tài liệu PDF mới
+			const mergedPdf = await PDFDocument.create();
+
+			for (let base64 of base64Array) {
+				// Chuyển đổi base64 thành mảng byte
+				const pdfBytes = new Uint8Array(atob(base64).split('').map(c => c.charCodeAt(0)));
+
+				// Tải PDF từ byte
+				const pdfDoc = await PDFDocument.load(pdfBytes);
+
+				// copy PDF vào PDF mới
+				const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPages().map((_, i) => i));
+
+				// Thêm các trang vào PDF mới
+				copiedPages.forEach((page) => {
+					mergedPdf.addPage(page);
+				});
+			}
+
+			const pdfBytesMerged = await mergedPdf.save();
+
+			// mở tab
+			const blob = new Blob([pdfBytesMerged], { type: 'application/pdf' });
+			const url = URL.createObjectURL(blob);
+			window.open(url, '_blank');
+		  },
 		callApiWithToken:async function(xml){
-			console.log("xml", xml);
+			// console.log("xml", xml);
 			var bodyData = {
+				"isprintqueue": "0",
+				"formname": "Sales_Receipt",
+				"templatename": "salesreceipt",  
 				"filecontentxml": xml,
 				"comm_scenario":"ZCS_FI1002A_GLVOUCHER",
 				"comm_system_id":"BTP_VAS",
@@ -255,10 +275,9 @@ sap.ui.define(
 				"queuename":"DEV_PRINT_QUEUE",
 				"documentname":"Test"
 			}
-
 			var credentials = btoa(username + ":" + password);
 			var settings = {
-				"url": "/sap/bc/http/sap/zbtp_http_example",
+				"url": "/sap/bc/http/sap/zbg_massprint",
 				"method": "POST",
 				"timeout": 0,
 				"headers": {
@@ -268,9 +287,22 @@ sap.ui.define(
 				"data": JSON.stringify(bodyData)
 			  };
 			  
-			  jQuery.ajax(settings).done(function (response) {
-				console.log("Dữ liệu từ ABAP",response);
-			  });
+			return new Promise(function(resolve, reject) {
+				jQuery.ajax(settings)
+					.done(function(response) {
+						console.log("Dữ liệu từ ABAP", JSON.parse(response));
+						let jsObject = JSON.parse(response)
+						if(jsObject.MessageCode == 200){
+							resolve(jsObject.base64Pdf);  // Trả kết quả khi gọi thành công
+						}else{
+							MessageToast.show("Error: " + jsObject.MessageText);
+						}
+					})
+					.fail(function(jqXHR, textStatus, errorThrown) {
+						console.error("AJAX request failed", textStatus, errorThrown);
+						reject(errorThrown);  // Trả lỗi
+					});
+			});
 		},
 		formatDate(date) {
 			var dateIn = new Date(date);
