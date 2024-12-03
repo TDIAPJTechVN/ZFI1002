@@ -10,26 +10,25 @@ sap.ui.define(
 	var arrLine = [];
 	let oSharedData = [];
 	let strXml = "";
-	var limit = 10;
-	let xmlRes = [];
-	
+	var todayTime = new Date().getUTCFullYear()+""+(new Date().getUTCMonth()+1) +""+ new Date().getUTCDate() + "_" + new Date().getUTCHours() + "" + new Date().getUTCMinutes() + "" + new Date().getUTCSeconds() + "" + new Date().getMilliseconds();
+
 	var username = "CPM_USER";  
 	var password = "pscqTSJ5}vvYWqnbnTFfhyUFjegjonBdGDiiqpvM";
 
-	return ControllerExtension.extend('ns1.zfi1002v3.ext.controller.PrintPDF', {
+	return ControllerExtension.extend('ns1.zfi1002v3.ext.controller.PrintQueue', {
 		// this section allows to extend lifecycle hooks or hooks provided by Fiori elements
 		override: {
 			/**
              * Called when a controller is instantiated and its View controls (if available) are already created.
              * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
-             * @memberOf ns1.zfi1002v3.ext.controller.PrintPDF
+             * @memberOf ns1.zfi1002v3.ext.controller.PrintQueue
              */
 			onInit: function () {
 				// you can access the Fiori elements extensionAPI via this.base.getExtensionAPI
 				var oModel = this.base.getExtensionAPI().getModel();
-			},
+			}
 		},
-		PrintPDF: async function() {
+		PrintQueue: function() {
 			let aContexts = "";
 			arrHeader = [];
 			arrLine = [];
@@ -60,6 +59,31 @@ sap.ui.define(
 			.catch(error => {
 				console.error("Error retrieving context data:", error);
 			});
+		},
+		arrHeaderLine:async function(arrHeader, arrLine){
+			var xmlStr  = "";
+			var base64String = "";
+			// console.log("arrHeader", arrHeader);
+			// console.log("arrLine", arrLine);
+			// Mapping header & line hoàn thành
+			oSharedData = await this.nestArrays(arrHeader, arrLine); 
+			// console.log("Data mapping header line", oSharedData);
+
+			console.log("oSharedData", oSharedData);
+			// Ngắn trang theo line
+			// let oPagebreakLine = await this.pagebreak(oSharedData); 
+			// console.log("Data break", oPagebreakLine);
+
+			let htmlElement = "";
+			let resAPI = ""
+			for (let k = 0; k < oSharedData.length; k++) {
+				htmlElement = await this.jsonToXml(oSharedData[k]);
+				// In ra pdf
+				xmlStr = '<Root>' + htmlElement + '</Root>';
+				// console.log("xmlStr", xmlStr);
+				resAPI = await this.callApiWithToken(xmlStr);
+			}
+
 		},
 		jsonToXml: async function(array) {
 			this._sValidPath = sap.ui.require.toUrl("ns1/zfi1002v3/template/payment.xml");
@@ -105,7 +129,7 @@ sap.ui.define(
 					'AmountInWords':'',
 					'SUM': this.formatMoney(arrTable.map(o => o.DEBIT).reduce((a, c) => { return a + c }), arrHe.TransactionCurrency),
 				}
-				// console.log("obj", obj);
+				console.log("obj", obj);
 			await jQuery.get(this._sValidPath, function(xml_string) {
 				var parser = new DOMParser();
 				var xmlDoc = parser.parseFromString(xml_string, 'application/xml');  
@@ -141,129 +165,10 @@ sap.ui.define(
 			// console.log("strXml", strXml);
 			return strXml;
 		},
-		filterLineByHeader: function(arrAccD, oBindList) {
-			let filter = [];
-			let alistItems = [];
-		
-			arrAccD.forEach(element => {
-				filter.push(new sap.ui.model.Filter("AccountingDocument", sap.ui.model.FilterOperator.EQ, element));
-			});
-		
-			let aFilter = new sap.ui.model.Filter(filter);
-			return oBindList.filter(aFilter).requestContexts().then(aContexts => {
-				aContexts.forEach(oContext => {
-					alistItems.push(oContext.getObject());
-				});
-				return alistItems; 
-			});
-		},
-		arrHeaderLine:async function(arrHeader, arrLine){
-			var xmlStr  = "";
-			var base64String = "";
-			// console.log("arrHeader", arrHeader);
-			// console.log("arrLine", arrLine);
-			// Mapping header & line hoàn thành
-			oSharedData = await this.nestArrays(arrHeader, arrLine); 
-			// console.log("Data mapping header line", oSharedData);
-
-			console.log("oSharedData", oSharedData);
-			// Ngắn trang theo line
-			// let oPagebreakLine = await this.pagebreak(oSharedData); 
-			// console.log("Data break", oPagebreakLine);
-
-			let htmlElement = "";
-			let resAPI = ""
-			xmlRes = [];
-			for (let k = 0; k < oSharedData.length; k++) {
-				htmlElement = await this.jsonToXml(oSharedData[k]);
-				// In ra pdf
-				xmlStr = '<Root>' + htmlElement + '</Root>';
-				// console.log("xmlStr", xmlStr);
-				resAPI = await this.callApiWithToken(xmlStr);
-
-				// console.log("resAPI",resAPI);
-				xmlRes.push(resAPI);
-				console.log("xmlRes",xmlRes);
-			}
-			await this.onOpenPdf(xmlRes);
-		},
-		nestArrays: async function(headerItem, lineItems) {
-			const lineItemsMap = {};
-			lineItems.forEach(item => {
-				const docId = item.AccountingDocument;
-				if (!lineItemsMap[docId]) {
-					lineItemsMap[docId] = [];
-				}
-				lineItemsMap[docId].push(item);
-			});
-
-			// Lồng line items vào accounting documents và loại bỏ những line items có mảng rỗng
-			const combinedResult = headerItem.map(HeaderItems => {
-				const lineItems = lineItemsMap[HeaderItems.AccountingDocument] || [];
-				return {
-					HeaderItems,
-					LineItems: lineItems
-				};
-			}).filter(item => item.LineItems.length > 0);  // Chỉ giữ lại những phần tử có LineItems không rỗng
-
-			return combinedResult;
-		},
-		pagebreak(oSharedData){
-			const breakData = oSharedData.flatMap(item => {
-				if (item.LineItems.length > limit) {
-					const result = [];
-					const lineItems = item.LineItems;
-					
-					for (let i = 0; i < lineItems.length; i += limit) {
-						const newLineItems = lineItems.slice(i, i + limit);
-						result.push({ ...item, LineItems: newLineItems });
-					}
-					
-					return result; 
-				}
-				return [item]; 
-			});
-			
-			// console.log("breakData", breakData);
-			return breakData;
-		},
-		onOpenPdf: function (base64Array) 
-		{
-			this.mergeBase64PDFsAndOpen(base64Array);
-		},
-		mergeBase64PDFsAndOpen: async function(base64Array) {
-			const { PDFDocument } = PDFLib;
-
-			// Tạo một tài liệu PDF mới
-			const mergedPdf = await PDFDocument.create();
-
-			for (let base64 of base64Array) {
-				// Chuyển đổi base64 thành mảng byte
-				const pdfBytes = new Uint8Array(atob(base64).split('').map(c => c.charCodeAt(0)));
-
-				// Tải PDF từ byte
-				const pdfDoc = await PDFDocument.load(pdfBytes);
-
-				// copy PDF vào PDF mới
-				const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPages().map((_, i) => i));
-
-				// Thêm các trang vào PDF mới
-				copiedPages.forEach((page) => {
-					mergedPdf.addPage(page);
-				});
-			}
-
-			const pdfBytesMerged = await mergedPdf.save();
-
-			// mở tab
-			const blob = new Blob([pdfBytesMerged], { type: 'application/pdf' });
-			const url = URL.createObjectURL(blob);
-			window.open(url, '_blank');
-		  },
 		callApiWithToken:async function(xml){
 			// console.log("xml", xml);
 			var bodyData = {
-				"isprintqueue": "0",
+				"isprintqueue": "1",
 				"formname": "Sales_Receipt",
 				"templatename": "salesreceipt",  
 				"filecontentxml": xml,
@@ -271,7 +176,7 @@ sap.ui.define(
 				"comm_system_id":"BTP_VAS",
 				"service_id":"ZFI10_02_GENERALLEDGERVOUCHER_OB_REST",
 				"queuename":"DEV_PRINT_QUEUE",
-				"documentname":"Test"
+				"documentname":"Queue_" + todayTime
 			}
 			var credentials = btoa(username + ":" + password);
 			var settings = {
@@ -301,6 +206,43 @@ sap.ui.define(
 						reject(errorThrown);  // Trả lỗi
 					});
 			});
+		},
+		filterLineByHeader: function(arrAccD, oBindList) {
+			let filter = [];
+			let alistItems = [];
+		
+			arrAccD.forEach(element => {
+				filter.push(new sap.ui.model.Filter("AccountingDocument", sap.ui.model.FilterOperator.EQ, element));
+			});
+		
+			let aFilter = new sap.ui.model.Filter(filter);
+			return oBindList.filter(aFilter).requestContexts().then(aContexts => {
+				aContexts.forEach(oContext => {
+					alistItems.push(oContext.getObject());
+				});
+				return alistItems; 
+			});
+		},
+		nestArrays: async function(headerItem, lineItems) {
+			const lineItemsMap = {};
+			lineItems.forEach(item => {
+				const docId = item.AccountingDocument;
+				if (!lineItemsMap[docId]) {
+					lineItemsMap[docId] = [];
+				}
+				lineItemsMap[docId].push(item);
+			});
+
+			// Lồng line items vào accounting documents và loại bỏ những line items có mảng rỗng
+			const combinedResult = headerItem.map(HeaderItems => {
+				const lineItems = lineItemsMap[HeaderItems.AccountingDocument] || [];
+				return {
+					HeaderItems,
+					LineItems: lineItems
+				};
+			}).filter(item => item.LineItems.length > 0);  // Chỉ giữ lại những phần tử có LineItems không rỗng
+
+			return combinedResult;
 		},
 		formatDate(date) {
 			var dateIn = new Date(date);

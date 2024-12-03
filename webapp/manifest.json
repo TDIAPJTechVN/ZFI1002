@@ -171,21 +171,43 @@
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
-                      "text": "{i18n>printFrom}"
+                      "text": "{i18n>printFrom}",
+                      "position": {
+                        "anchor": "ExcelForm",
+                        "placement": "Before"
+                      }
                     },
                     "ExcelForm": {
                       "press": ".extension.ns1.zfi1002v3.ext.controller.ExcelForm.ExcelForm",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": false,
-                      "text": "Dialog"
+                      "text": "Dialog",
+                      "position": {
+                        "anchor": "PrintQueue",
+                        "placement": "Before"
+                      }
                     },
                     "Print": {
                       "press": ".extension.ns1.zfi1002v3.ext.controller.PrintPDF.PrintPDF",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": false,
-                      "text": "Print PDF"
+                      "text": "Print PDF",
+                      "position": {
+                        "placement": "After"
+                      }
+                    },
+                    "PrintQueue": {
+                      "press": ".extension.ns1.zfi1002v3.ext.controller.PrintQueue.PrintQueue",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "PrintQueue",
+                      "position": {
+                        "anchor": "Print",
+                        "placement": "Before"
+                      }
                     }
                   }
                 }
@@ -231,7 +253,8 @@
             "controllerNames": [
               "ns1.zfi1002v3.ext.controller.PrintForm",
               "ns1.zfi1002v3.ext.controller.ExcelForm",
-              "ns1.zfi1002v3.ext.controller.PrintPDF"
+              "ns1.zfi1002v3.ext.controller.PrintPDF",
+              "ns1.zfi1002v3.ext.controller.PrintQueue"
             ]
           }
         }

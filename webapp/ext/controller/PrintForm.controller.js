@@ -150,7 +150,6 @@ sap.ui.define(
 					const lineItems = item.LineItems;
 					
 					for (let i = 0; i < lineItems.length; i += limit) {
-						console.log("aaaaaa", i, limit, i += limit);
 						const newLineItems = lineItems.slice(i, i + limit);
 						result.push({ ...item, LineItems: newLineItems });
 					}
